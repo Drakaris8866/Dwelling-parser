@@ -1,0 +1,344 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Platform {
+  KUFAR
+  ONLINER
+  REALT
+}
+
+enum AlertStatus {
+  SENT
+  FAILED
+}
+
+model Listing {
+  id                    String               @id @default(uuid())
+  platform              Platform
+  externalId            String
+  url                   String
+  title                 String
+  description           String
+  rooms                 Int
+  areaSqm               Decimal              @db.Decimal(8, 2)
+  priceUsd              Decimal              @db.Decimal(12, 2)
+  priceByn              Decimal?             @db.Decimal(12, 2)
+  pricePerSqm           Decimal              @db.Decimal(10, 2)
+  latitude              Decimal?             @db.Decimal(9, 6)
+  longitude             Decimal?             @db.Decimal(9, 6)
+  timeToTargetTransit   Int?
+  targetTransitSummary  String?
+  photos                String[]
+  photoSetHash          String?
+  photoRepair           PhotoRepairAnalysis?
+  details               String[]             @default([])
+  houseType             String?
+  buildingSeries        String?
+  repairState           String?
+  metroName             String?
+  metroDistanceText     String?
+  metroDistanceType     String?
+  sourcePayload         Json
+  isActive              Boolean              @default(true)
+  firstSeenAt           DateTime             @default(now())
+  lastSeenAt            DateTime             @default(now())
+  propertyId            String?
+  property              Property?            @relation(fields: [propertyId], references: [id])
+  isRepresentative      Boolean              @default(true)
+  duplicateCheckPending Boolean              @default(false)
+  contentHash           String?
+  features              Json?
+  address               String?
+  locality              String?
+  district              String?
+  marketZone            String?
+  isStudio              Boolean?
+  kitchenSqm            Float?
+  livingSqm             Float?
+  floor                 Int?
+  totalFloors           Int?
+  buildingYear          Int?
+  buildingMaterial      String?
+  repairCategory        String?
+  layoutType            String?
+  balcony               Boolean?
+  elevator              Boolean?
+  bathroom              String?
+  sellerType            String?
+  readiness             String?
+  disposition           String               @default("REVIEW")
+  exclusionReasons      String[]             @default([])
+  enrichmentStatus      String               @default("PENDING")
+  enrichedAt            DateTime?
+  routeData             Json?
+  routeStatus           String               @default("PENDING")
+  routeError            String?
+  routeAttemptedAt      DateTime?
+  observedRunId         String?
+  missedCompleteRuns    Int                  @default(0)
+  lastCompleteMissAt    DateTime?
+  lastCompleteMissRunId String?
+  possibleDuplicateIds  String[]             @default([])
+  priceChangedAt        DateTime?
+  createdAt             DateTime             @default(now())
+  updatedAt             DateTime             @updatedAt
+  priceHistory          PriceHistory[]
+  alerts                Alert[]
+
+  @@unique([platform, externalId])
+  @@index([platform, externalId])
+  @@index([rooms, isActive, lastSeenAt])
+  @@index([pricePerSqm])
+  @@index([propertyId, isRepresentative])
+  @@index([disposition, isActive, priceUsd])
+  @@index([marketZone, rooms, isStudio, latitude, longitude])
+}
+
+model Property {
+  id                    String         @id @default(uuid())
+  favorite              Boolean        @default(false)
+  hidden                Boolean        @default(false)
+  assessmentError       String?
+  assessmentAttemptedAt DateTime?
+  renovationBudgetUsd   Decimal?       @db.Decimal(12, 2)
+  assessmentRevision    Int            @default(0)
+  userStateRevision     Int            @default(0)
+  createdAt             DateTime       @default(now())
+  listings              Listing[]
+  assessment            Assessment?
+  shadowRanking         ShadowRanking?
+  feedback              UserFeedback[]
+}
+
+model PhotoRepairAnalysis {
+  id            String   @id @default(uuid())
+  listingId     String   @unique
+  listing       Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  galleryHash   String
+  model         String
+  modelDigest   String?
+  promptVersion Int
+  status        String
+  decision      String   @default("PENDING")
+  suggestion    String?
+  evidence      Json?
+  message       String?
+  updatedAt     DateTime @updatedAt
+}
+
+model Assessment {
+  propertyId      String   @id
+  property        Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  version         String
+  valueScore      Float?
+  comfortScore    Float?
+  coverage        Float
+  discountPct     Float?
+  medianPriceSqm  Float?
+  confidence      String
+  comparableCount Int
+  data            Json
+  calculatedAt    DateTime @default(now())
+
+  @@index([valueScore])
+  @@index([comfortScore])
+}
+
+model ShadowRanking {
+  propertyId      String   @id
+  property        Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  rankingVersion  Int
+  score           Float?
+  asIsScore       Float?
+  asIsDiscountPct Float?
+  totalUsdLow     Float?
+  totalUsdBase    Float?
+  totalUsdHigh    Float?
+  coverage        Float
+  provisional     Boolean
+  reason          String?
+  breakdown       Json
+  settingsKey     String
+  calculatedAt    DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([score])
+  @@index([provisional, score])
+}
+
+model PersonalRankingSettings {
+  id        String   @id
+  value     Json
+  updatedAt DateTime @updatedAt
+}
+
+model PersonalRankingSnapshot {
+  id           String   @id @default(uuid())
+  propertyId   String
+  inputHash    String
+  payload      Json
+  calculatedAt DateTime @default(now())
+
+  @@unique([propertyId, inputHash])
+  @@index([propertyId, calculatedAt])
+}
+
+model DuplicateMerge {
+  id          String   @id @default(uuid())
+  primaryId   String
+  secondaryId String
+  evidence    String
+  before      Json
+  after       Json
+  createdAt   DateTime @default(now())
+  undoneAt    DateTime?
+
+  @@index([primaryId, createdAt])
+  @@index([secondaryId, createdAt])
+}
+
+model SourceSyncRun {
+  id           String    @id @default(uuid())
+  platform     Platform
+  kind         String
+  status       String    @default("RUNNING")
+  scopeVersion String    @default("minsk-district-v1")
+  checkpoint   Json?
+  pages        Int       @default(0)
+  received     Int       @default(0)
+  accepted     Int       @default(0)
+  review       Int       @default(0)
+  excluded     Int       @default(0)
+  invalid      Int       @default(0)
+  detailErrors Int       @default(0)
+  reasons      Json?
+  error        String?
+  startedAt    DateTime  @default(now())
+  finishedAt   DateTime?
+
+  @@index([platform, startedAt])
+}
+
+model SavedSearch {
+  id                  String         @id @default(uuid())
+  name                String
+  filters             Json
+  notifications       Boolean        @default(false)
+  initializedAt       DateTime?
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+  matches             SearchMatch[]
+  notificationsOutbox Notification[]
+}
+
+model SearchMatch {
+  searchId   String
+  propertyId String
+  priceUsd   Decimal     @db.Decimal(12, 2)
+  search     SavedSearch @relation(fields: [searchId], references: [id], onDelete: Cascade)
+  updatedAt  DateTime    @updatedAt
+
+  @@id([searchId, propertyId])
+}
+
+model Notification {
+  id         String      @id @default(uuid())
+  eventKey   String      @unique
+  searchId   String
+  propertyId String
+  kind       String
+  status     String      @default("PENDING")
+  attempts   Int         @default(0)
+  error      String?
+  createdAt  DateTime    @default(now())
+  sentAt     DateTime?
+  search     SavedSearch @relation(fields: [searchId], references: [id], onDelete: Cascade)
+
+  @@index([status, createdAt])
+}
+
+model AppSettings {
+  id        Int      @id @default(1)
+  data      Json
+  updatedAt DateTime @updatedAt
+}
+
+model RouteCache {
+  key       String   @id
+  data      Json
+  expiresAt DateTime
+}
+
+model PriceHistory {
+  id          String   @id @default(uuid())
+  listingId   String
+  priceUsd    Decimal  @db.Decimal(12, 2)
+  pricePerSqm Decimal  @db.Decimal(10, 2)
+  observedAt  DateTime @default(now())
+  listing     Listing  @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  @@index([listingId, observedAt])
+}
+
+model GeoCache {
+  id                 String   @id @default(uuid())
+  roundedLat         Decimal  @db.Decimal(7, 4)
+  roundedLon         Decimal  @db.Decimal(7, 4)
+  nearestMetro       String
+  accessMode         String
+  accessMinutes      Int
+  walkingMinutes     Int
+  walkingMeters      Int
+  straightLineMeters Int
+  transitMinutes     Int?
+  provider           String
+  expiresAt          DateTime
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@unique([roundedLat, roundedLon])
+  @@index([expiresAt])
+}
+
+model Alert {
+  id             String      @id @default(uuid())
+  listingId      String
+  fairPriceSqm   Decimal     @db.Decimal(10, 2)
+  actualPriceSqm Decimal     @db.Decimal(10, 2)
+  discountPct    Decimal     @db.Decimal(5, 2)
+  status         AlertStatus
+  errorMessage   String?
+  sentAt         DateTime?
+  createdAt      DateTime    @default(now())
+  listing        Listing     @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  @@index([listingId, createdAt])
+}
+
+model UserFeedback {
+  id            String   @id @default(uuid())
+  propertyId    String
+  property      Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  rating        Int?     // -1, 0, 1 или null (не оценивали)
+  commentRaw    String?  // исходный текст, НЕ логировать
+  parsedSignals Json?    // { positive: string[], negative: string[], ambiguous: string[] }
+  confirmed     Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([propertyId, createdAt])
+}
+
+model UserPreferences {
+  id            Int      @id @default(1)
+  weightVersion Int      @default(0)
+  weights       Json     // { house: number, commute: number, location: number, layout: number }
+  updatedAt     DateTime @updatedAt
+}
+

@@ -1,0 +1,1 @@
+ALTER TABLE "Listing" ADD COLUMN "possibleDuplicateIds" TEXT[] NOT NULL DEFAULT ARRAY[]::TEXT[];

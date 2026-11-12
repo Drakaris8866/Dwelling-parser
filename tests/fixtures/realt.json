@@ -1,0 +1,95 @@
+{
+  "platform": "REALT",
+  "capturedAt": "2026-11-05T08:02:26.050Z",
+  "items": [
+    {
+      "code": 4195460,
+      "rooms": 2,
+      "areaTotal": 48.3,
+      "areaLiving": 36,
+      "areaKitchen": null,
+      "price": 122174,
+      "priceCurrency": 978,
+      "priceRates": {
+        "112": 4099670744,
+        "643": 11227361,
+        "840": 137545,
+        "933": 409967,
+        "978": 122174
+      },
+      "storey": 3,
+      "storeys": 25,
+      "buildingYear": 2023,
+      "houseType": null,
+      "repairState": null,
+      "images": [
+        "https://cdn.realt.by/img/55/01d4bde6-8cdd-11f1-bb87-0242ac120002"
+      ],
+      "location": [
+        27.5351,
+        53.8685
+      ],
+      "townName": "Минск",
+      "stateDistrictName": "Минский",
+      "address": "Минск Левина ул. 3"
+    },
+    {
+      "code": 4180198,
+      "rooms": 1,
+      "areaTotal": 49,
+      "areaLiving": 49,
+      "areaKitchen": null,
+      "price": 114400,
+      "priceCurrency": 840,
+      "priceRates": {
+        "112": 3409806400,
+        "643": 9338098,
+        "840": 114400,
+        "933": 340981,
+        "978": 101615
+      },
+      "storey": 2,
+      "storeys": 11,
+      "buildingYear": 2026,
+      "houseType": 3,
+      "repairState": 8,
+      "images": [
+        "https://cdn.realt.by/img/55/cc42facc-7ecb-11f1-9598-0242ac120002",
+        "https://cdn.realt.by/img/55/4be4df52-8732-11f1-ab6a-0242ac120002",
+        "https://cdn.realt.by/img/55/4d254c62-8732-11f1-908b-0242ac120002",
+        "https://cdn.realt.by/img/55/4d7cb592-8732-11f1-9b39-0242ac120002",
+        "https://cdn.realt.by/img/55/4d85ec2a-8732-11f1-964a-0242ac120002",
+        "https://cdn.realt.by/img/55/4da14f24-8732-11f1-af95-0242ac120002",
+        "https://cdn.realt.by/img/55/4da3c934-8732-11f1-be3d-0242ac120002",
+        "https://cdn.realt.by/img/55/4d8c73ec-8732-11f1-bba3-0242ac120002",
+        "https://cdn.realt.by/img/55/4d977ac6-8732-11f1-be3e-0242ac120002",
+        "https://cdn.realt.by/img/55/cc656314-7ecb-11f1-bbe6-0242ac120002",
+        "https://cdn.realt.by/img/55/cc4732ea-7ecb-11f1-b8bc-0242ac120002",
+        "https://cdn.realt.by/img/55/cc48a616-7ecb-11f1-a842-0242ac120002",
+        "https://cdn.realt.by/img/55/cbe0afc0-7ecb-11f1-97fa-0242ac120002",
+        "https://cdn.realt.by/img/55/cc28ea38-7ecb-11f1-9cd0-0242ac120002",
+        "https://cdn.realt.by/img/55/cbda3d34-7ecb-11f1-bf0a-0242ac120002",
+        "https://cdn.realt.by/img/55/cbea9fda-7ecb-11f1-a0f4-0242ac120002",
+        "https://cdn.realt.by/img/55/cbde7af2-7ecb-11f1-ad31-0242ac120002",
+        "https://cdn.realt.by/img/55/cbf06834-7ecb-11f1-aa28-0242ac120002",
+        "https://cdn.realt.by/img/55/1e36a0f4-7ecc-11f1-bf0e-0242ac120002",
+        "https://cdn.realt.by/img/55/cbff16a4-7ecb-11f1-9886-0242ac120002",
+        "https://cdn.realt.by/img/55/cc5522c4-7ecb-11f1-89de-0242ac120002",
+        "https://cdn.realt.by/img/55/cc579c16-7ecb-11f1-9a01-0242ac120002",
+        "https://cdn.realt.by/img/55/cc5a9a9c-7ecb-11f1-b793-0242ac120002",
+        "https://cdn.realt.by/img/55/cc5f9aa6-7ecb-11f1-99a1-0242ac120002",
+        "https://cdn.realt.by/img/55/cc67906c-7ecb-11f1-ae17-0242ac120002",
+        "https://cdn.realt.by/img/55/cc6cd7c0-7ecb-11f1-a615-0242ac120002",
+        "https://cdn.realt.by/img/55/cc6d308a-7ecb-11f1-9aef-0242ac120002",
+        "https://cdn.realt.by/img/55/cc3a5df4-7ecb-11f1-a90f-0242ac120002"
+      ],
+      "location": [
+        27.438,
+        53.8726
+      ],
+      "townName": "Минск",
+      "stateDistrictName": "Минский",
+      "address": "Минск Лосика ул. 47"
+    }
+  ]
+}

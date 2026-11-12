@@ -1,0 +1,689 @@
+{
+  "platform": "KUFAR",
+  "capturedAt": "2026-11-05T08:02:26.020Z",
+  "items": [
+    {
+      "ad_id": 1076396097,
+      "ad_link": "https://re.kufar.by/vi/1076396097",
+      "type": "sell",
+      "price_usd": 8987668,
+      "price_byn": 25800000,
+      "images": [
+        {
+          "id": "0000",
+          "path": "adim1/8fa131a6-b2bb-452d-8301-af9772d797ac.jpg",
+          "yams_storage": false,
+          "media_storage": "rms"
+        }
+      ],
+      "ad_parameters": [
+        {
+          "p": "type",
+          "v": "sell",
+          "pl": "Тип сделки",
+          "pu": "typ",
+          "vl": "Покупка"
+        },
+        {
+          "p": "category",
+          "v": 1010,
+          "pl": "Категория",
+          "pu": "cat",
+          "vl": "Квартиры"
+        },
+        {
+          "g": [
+            {
+              "gi": 4,
+              "gl": "Местоположение",
+              "go": 4,
+              "po": 5
+            }
+          ],
+          "p": "re_district",
+          "v": "100",
+          "pl": "Микрорайон",
+          "pu": "red",
+          "vl": "Зеленый луг"
+        },
+        {
+          "p": "rooms",
+          "v": "2",
+          "pl": "Комнат",
+          "pu": "rms",
+          "vl": "2"
+        },
+        {
+          "p": "square_meter",
+          "v": 5201.61,
+          "pl": "Цена за м²",
+          "pu": "psm",
+          "vl": ""
+        },
+        {
+          "g": [
+            {
+              "gi": 2,
+              "gl": "О квартире",
+              "go": 2,
+              "po": 10
+            },
+            {
+              "gi": 1,
+              "go": 1,
+              "po": 20
+            }
+          ],
+          "p": "size",
+          "v": 49.6,
+          "pl": "Общая площадь",
+          "pu": "st",
+          "vl": ""
+        },
+        {
+          "g": [
+            {
+              "gi": 2,
+              "gl": "О квартире",
+              "go": 2,
+              "po": 15
+            },
+            {
+              "gi": 1,
+              "go": 1,
+              "po": 25
+            }
+          ],
+          "p": "size_living_space",
+          "v": 28.8,
+          "pl": "Жилая площадь",
+          "pu": "sls",
+          "vl": ""
+        },
+        {
+          "g": [
+            {
+              "gi": 2,
+              "gl": "О квартире",
+              "go": 2,
+              "po": 20
+            },
+            {
+              "gi": 1,
+              "go": 1,
+              "po": 30
+            }
+          ],
+          "p": "size_kitchen",
+          "v": 7.1,
+          "pl": "Площадь кухни",
+          "pu": "skt",
+          "vl": ""
+        },
+        {
+          "p": "bathroom",
+          "v": "1",
+          "pl": "Санузел",
+          "pu": "bth",
+          "vl": "Раздельный"
+        },
+        {
+          "p": "balcony",
+          "v": "3",
+          "pl": "Балкон",
+          "pu": "blc",
+          "vl": "Лоджия"
+        },
+        {
+          "p": "flat_repair",
+          "v": "20",
+          "pl": "Ремонт",
+          "pu": "flrp",
+          "vl": "Без отделки"
+        },
+        {
+          "p": "not_first_floor",
+          "v": true,
+          "pl": "Не первый этаж",
+          "pu": "nff",
+          "vl": "Да"
+        },
+        {
+          "p": "re_last_floor",
+          "v": "1",
+          "pl": "Последний этаж",
+          "pu": "rlf",
+          "vl": "Не последний этаж"
+        },
+        {
+          "p": "not_last_floor",
+          "v": true,
+          "pl": "Не последний этаж",
+          "pu": "nlf",
+          "vl": "Да"
+        },
+        {
+          "g": [
+            {
+              "gi": 2,
+              "gl": "О квартире",
+              "go": 2,
+              "po": 65
+            },
+            {
+              "gi": 1,
+              "go": 1,
+              "po": 5
+            }
+          ],
+          "p": "floor",
+          "v": [
+            2
+          ],
+          "pl": "Этаж",
+          "pu": "fl",
+          "vl": [
+            "2"
+          ]
+        },
+        {
+          "g": [
+            {
+              "gi": 1,
+              "go": 1,
+              "po": 10
+            },
+            {
+              "gi": 3,
+              "gl": "О доме",
+              "go": 3,
+              "po": 10
+            }
+          ],
+          "p": "re_number_floors",
+          "v": [
+            9
+          ],
+          "pl": "Этажность дома",
+          "pu": "nmfl",
+          "vl": [
+            "9"
+          ]
+        },
+        {
+          "p": "house_type",
+          "v": "1",
+          "pl": "Материал стен",
+          "pu": "hst",
+          "vl": "Панельный"
+        },
+        {
+          "g": [
+            {
+              "gi": 1,
+              "go": 1,
+              "po": 15
+            },
+            {
+              "gi": 3,
+              "gl": "О доме",
+              "go": 3,
+              "po": 1
+            }
+          ],
+          "p": "year_built",
+          "v": 1978,
+          "pl": "Год постройки",
+          "pu": "yb",
+          "vl": "1978"
+        },
+        {
+          "g": [
+            {
+              "gi": 2,
+              "gl": "О квартире",
+              "go": 2,
+              "po": 70
+            }
+          ],
+          "p": "flat_windows_side",
+          "v": [
+            1
+          ],
+          "pl": "Окна выходят",
+          "pu": "fws",
+          "vl": [
+            "Во двор"
+          ]
+        },
+        {
+          "g": [
+            {
+              "gi": 3,
+              "gl": "О доме",
+              "go": 3,
+              "po": 20
+            }
+          ],
+          "p": "flat_building_improvements",
+          "v": [
+            1,
+            8
+          ],
+          "pl": "Обустройство дома",
+          "pu": "fbi",
+          "vl": [
+            "Лифт",
+            "Видеонаблюдение"
+          ]
+        },
+        {
+          "g": [
+            {
+              "gi": 2,
+              "gl": "О квартире",
+              "go": 2,
+              "po": 85
+            }
+          ],
+          "p": "condition",
+          "v": "1",
+          "pl": "Состояние",
+          "pu": "cnd",
+          "vl": "Вторичное"
+        },
+        {
+          "p": "region",
+          "v": 7,
+          "pl": "Регион",
+          "pu": "rgn",
+          "vl": "Минск"
+        },
+        {
+          "p": "area",
+          "v": "23",
+          "pl": "Город / Район",
+          "pu": "ar",
+          "vl": "Советский"
+        },
+        {
+          "p": "remuneration_type",
+          "v": "1",
+          "pl": "Тип оплаты",
+          "pu": "rtr",
+          "vl": "Цена"
+        },
+        {
+          "p": "address_tags_yandex",
+          "v": [
+            "country-belarus~province-minsk~locality-minsk~street-ulica_miroshnichenko~house-27",
+            "country-belarus~province-minsk~locality-minsk~street-ulica_miroshnichenko",
+            "country-belarus~province-minsk~locality-minsk",
+            "country-belarus~province-minsk",
+            "country-belarus",
+            "country-belarus~province-minsk~locality-minsk~coder_district-23",
+            "country-belarus~province-minsk~locality-minsk~coder_mdistrict-100"
+          ],
+          "pl": "Яндекс координаты",
+          "pu": "gtsy",
+          "vl": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "p": "coordinates",
+          "v": [
+            27.606073,
+            53.962313
+          ],
+          "pl": "Координаты",
+          "pu": "gbx",
+          "vl": [
+            "",
+            ""
+          ]
+        },
+        {
+          "p": "trademark",
+          "v": "ЦИАН РЭС",
+          "pl": "Компания",
+          "pu": "trd",
+          "vl": ""
+        }
+      ]
+    },
+    {
+      "ad_id": 1076368768,
+      "ad_link": "https://re.kufar.by/vi/1076368768",
+      "type": "sell",
+      "price_usd": 8810318,
+      "price_byn": 25290900,
+      "images": [
+        {
+          "id": "0000",
+          "path": "adim1/944d9d89-d586-4c4e-949a-fc79dbd62cb0.jpg",
+          "yams_storage": false,
+          "media_storage": "rms"
+        }
+      ],
+      "ad_parameters": [
+        {
+          "p": "type",
+          "v": "sell",
+          "pl": "Тип сделки",
+          "pu": "typ",
+          "vl": "Покупка"
+        },
+        {
+          "p": "category",
+          "v": 1010,
+          "pl": "Категория",
+          "pu": "cat",
+          "vl": "Квартиры"
+        },
+        {
+          "g": [
+            {
+              "gi": 4,
+              "gl": "Местоположение",
+              "go": 4,
+              "po": 10
+            }
+          ],
+          "p": "metro",
+          "v": [
+            18
+          ],
+          "pl": "Метро",
+          "pu": "mee",
+          "vl": [
+            "Партизанская"
+          ]
+        },
+        {
+          "p": "rooms",
+          "v": "2",
+          "pl": "Комнат",
+          "pu": "rms",
+          "vl": "2"
+        },
+        {
+          "p": "square_meter",
+          "v": 5510,
+          "pl": "Цена за м²",
+          "pu": "psm",
+          "vl": ""
+        },
+        {
+          "g": [
+            {
+              "gi": 2,
+              "gl": "О квартире",
+              "go": 2,
+              "po": 10
+            },
+            {
+              "gi": 1,
+              "go": 1,
+              "po": 20
+            }
+          ],
+          "p": "size",
+          "v": 45.9,
+          "pl": "Общая площадь",
+          "pu": "st",
+          "vl": ""
+        },
+        {
+          "g": [
+            {
+              "gi": 2,
+              "gl": "О квартире",
+              "go": 2,
+              "po": 15
+            },
+            {
+              "gi": 1,
+              "go": 1,
+              "po": 25
+            }
+          ],
+          "p": "size_living_space",
+          "v": 30.2,
+          "pl": "Жилая площадь",
+          "pu": "sls",
+          "vl": ""
+        },
+        {
+          "g": [
+            {
+              "gi": 2,
+              "gl": "О квартире",
+              "go": 2,
+              "po": 20
+            },
+            {
+              "gi": 1,
+              "go": 1,
+              "po": 30
+            }
+          ],
+          "p": "size_kitchen",
+          "v": 5.8,
+          "pl": "Площадь кухни",
+          "pu": "skt",
+          "vl": ""
+        },
+        {
+          "p": "bathroom",
+          "v": "2",
+          "pl": "Санузел",
+          "pu": "bth",
+          "vl": "Совмещенный"
+        },
+        {
+          "p": "balcony",
+          "v": "1",
+          "pl": "Балкон",
+          "pu": "blc",
+          "vl": "Есть"
+        },
+        {
+          "p": "flat_ceiling_height",
+          "v": "1",
+          "pl": "Высота потолков",
+          "pu": "flch",
+          "vl": "от 2.5 м"
+        },
+        {
+          "p": "flat_repair",
+          "v": "1",
+          "pl": "Ремонт",
+          "pu": "flrp",
+          "vl": "Косметический"
+        },
+        {
+          "p": "not_first_floor",
+          "v": true,
+          "pl": "Не первый этаж",
+          "pu": "nff",
+          "vl": "Да"
+        },
+        {
+          "p": "re_last_floor",
+          "v": "1",
+          "pl": "Последний этаж",
+          "pu": "rlf",
+          "vl": "Не последний этаж"
+        },
+        {
+          "p": "not_last_floor",
+          "v": true,
+          "pl": "Не последний этаж",
+          "pu": "nlf",
+          "vl": "Да"
+        },
+        {
+          "g": [
+            {
+              "gi": 2,
+              "gl": "О квартире",
+              "go": 2,
+              "po": 65
+            },
+            {
+              "gi": 1,
+              "go": 1,
+              "po": 5
+            }
+          ],
+          "p": "floor",
+          "v": [
+            4
+          ],
+          "pl": "Этаж",
+          "pu": "fl",
+          "vl": [
+            "4"
+          ]
+        },
+        {
+          "g": [
+            {
+              "gi": 1,
+              "go": 1,
+              "po": 10
+            },
+            {
+              "gi": 3,
+              "gl": "О доме",
+              "go": 3,
+              "po": 10
+            }
+          ],
+          "p": "re_number_floors",
+          "v": [
+            5
+          ],
+          "pl": "Этажность дома",
+          "pu": "nmfl",
+          "vl": [
+            "5"
+          ]
+        },
+        {
+          "p": "house_type",
+          "v": "1",
+          "pl": "Материал стен",
+          "pu": "hst",
+          "vl": "Панельный"
+        },
+        {
+          "g": [
+            {
+              "gi": 1,
+              "go": 1,
+              "po": 15
+            },
+            {
+              "gi": 3,
+              "gl": "О доме",
+              "go": 3,
+              "po": 1
+            }
+          ],
+          "p": "year_built",
+          "v": 1962,
+          "pl": "Год постройки",
+          "pu": "yb",
+          "vl": "1962"
+        },
+        {
+          "g": [
+            {
+              "gi": 2,
+              "gl": "О квартире",
+              "go": 2,
+              "po": 85
+            }
+          ],
+          "p": "condition",
+          "v": "1",
+          "pl": "Состояние",
+          "pu": "cnd",
+          "vl": "Вторичное"
+        },
+        {
+          "p": "region",
+          "v": 7,
+          "pl": "Регион",
+          "pu": "rgn",
+          "vl": "Минск"
+        },
+        {
+          "p": "area",
+          "v": "26",
+          "pl": "Город / Район",
+          "pu": "ar",
+          "vl": "Заводской"
+        },
+        {
+          "p": "remuneration_type",
+          "v": "1",
+          "pl": "Тип оплаты",
+          "pu": "rtr",
+          "vl": "Цена"
+        },
+        {
+          "p": "address_tags_yandex",
+          "v": [
+            "country-belarus~province-minsk~locality-minsk~street-narodnaja_ulica~house-18",
+            "country-belarus~province-minsk~locality-minsk~street-narodnaja_ulica",
+            "country-belarus~province-minsk~locality-minsk",
+            "country-belarus~province-minsk",
+            "country-belarus",
+            "country-belarus~province-minsk~locality-minsk~coder_district-26",
+            "country-belarus~province-minsk~locality-minsk~coder_metro-18"
+          ],
+          "pl": "Яндекс координаты",
+          "pu": "gtsy",
+          "vl": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "p": "coordinates",
+          "v": [
+            27.6186,
+            53.8739
+          ],
+          "pl": "Координаты",
+          "pu": "gbx",
+          "vl": [
+            "",
+            ""
+          ]
+        },
+        {
+          "p": "trademark",
+          "v": "Агентство недвижимости",
+          "pl": "Компания",
+          "pu": "trd",
+          "vl": ""
+        }
+      ]
+    }
+  ]
+}

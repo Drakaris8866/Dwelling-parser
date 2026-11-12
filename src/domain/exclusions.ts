@@ -1,0 +1,30 @@
+import type { ListingCandidate } from "./listing.js";
+import type { ListingFeatures } from "../contracts/catalog.js";
+import { inMinskCollectionArea } from "../utils/listingFeatures.js";
+import { describedBuildingFloorCounts, offersExchange, parseListingIntent } from "../utils/listingIntent.js";
+
+export type ExclusionDecision = { readonly disposition: "ACCEPTED" | "REVIEW" | "EXCLUDED"; readonly reasons: readonly string[] };
+export const PARTIAL_SALE_REASON = "Продажа комнаты или доли";
+export const classifyListing = (listing: Pick<ListingCandidate, "title" | "description">, f: ListingFeatures): ExclusionDecision => {
+  const signals = parseListingIntent(listing.title, listing.description, f);
+  const floors = new Set(describedBuildingFloorCounts(listing.title, listing.description));
+  if (f.totalFloors !== undefined && f.totalFloors > 0) floors.add(f.totalFloors);
+  const reasons: string[] = [];
+  if (floors.size === 1 && [...floors][0]! <= 4) reasons.push("В доме четыре этажа или меньше");
+  if (offersExchange(listing.title, listing.description)) reasons.push("Объявление об обмене");
+  if (f.dealType === "rent" || signals.rental) reasons.push("Аренда вместо продажи");
+  if (f.propertyType === "house" || signals.house) reasons.push("Частный дом");
+  if (f.propertyType === "room" || f.propertyType === "share" || f.ownership === "partial" || signals.partial) reasons.push(PARTIAL_SALE_REASON);
+  if (signals.minskWorld) reasons.push("ЖК Минск-Мир");
+  const area = f.inCollectionArea ?? inMinskCollectionArea(f.locality, f.district);
+  if (area === false) reasons.push("За пределами Минска и Минского района");
+  if (reasons.length > 0) return { disposition: "EXCLUDED", reasons: [...new Set(reasons)] };
+  const review: string[] = [];
+  if (floors.size !== 1) review.push(floors.size === 0 ? "Не указана этажность дома" : "Противоречивые сведения об этажности дома");
+  if (signals.ambiguousDeal) review.push("Нужно подтвердить продажу квартиры целиком без обмена");
+  if (f.descriptionComplete === false) review.push("Не получено полное описание для проверки условий продажи");
+  if (area !== true) review.push("Нужно подтвердить населённый пункт и район");
+  if (f.priceIsTotal === false || signals.incompletePrice) review.push("Нужно подтвердить полную цену квартиры");
+  if (f.propertyType === "unknown" || f.dealType === "unknown") review.push("Нужно подтвердить тип объекта или сделки");
+  return review.length > 0 ? { disposition: "REVIEW", reasons: review } : { disposition: "ACCEPTED", reasons: [] };
+};

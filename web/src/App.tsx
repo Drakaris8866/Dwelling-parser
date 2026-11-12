@@ -1,0 +1,53 @@
+import { lazy, Suspense, useEffect, useState } from "react";
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Activity, Bookmark, Building2, ChevronLeft, ChevronRight, Copy, Heart, LayoutGrid, ListFilter, Map, Search, Settings2, X } from "lucide-react";
+import { api } from "./api.js";
+import { useCatalogState } from "./state.js";
+import type { CatalogFilters, CatalogSort } from "../../src/contracts/catalog.js";
+import { Filters } from "./components/Filters.js";
+import { ListingCard } from "./components/ListingCard.js";
+import { Settings } from "./components/Settings.js";
+import { SourceStatus } from "./components/SourceStatus.js";
+import { SavedSearches } from "./components/SavedSearches.js";
+import { DuplicateReview } from "./components/DuplicateReview.js";
+
+type Section = "catalog" | "favorites" | "searches" | "status" | "settings" | "duplicates";
+const MapView = lazy(() => import("./components/MapView.js").then((m) => ({ default: m.MapView })));
+const Detail = lazy(() => import("./components/Detail.js").then((m) => ({ default: m.Detail })));
+export function App() {
+  const state = useCatalogState(), client = useQueryClient();
+  const [section, setSection] = useState<Section>("catalog"), [mobileFilters, setMobileFilters] = useState(false);
+  const [saveOpen, setSaveOpen] = useState(false), [searchName, setSearchName] = useState(""), [notify, setNotify] = useState(false);
+  const [zoom, setZoom] = useState(11), [viewport, setViewport] = useState<CatalogFilters["bounds"]>();
+  const [debouncedFilters, setDebouncedFilters] = useState(state.filters);
+  useEffect(() => { const timer = setTimeout(() => setDebouncedFilters(state.filters), 300); return () => clearTimeout(timer); }, [state.filters]);
+  const filters = { ...debouncedFilters, ...(section === "favorites" ? { favoritesOnly: true } : {}) };
+  const browsing = section === "catalog" || section === "favorites";
+  const catalog = useQuery({ queryKey: ["catalog", filters, state.page, state.sort], queryFn: () => api.catalog(filters, state.page, state.sort), enabled: browsing, placeholderData: keepPreviousData, refetchInterval: 30_000 });
+  const map = useQuery({ queryKey: ["map", filters, zoom], queryFn: () => api.map(filters, zoom), enabled: browsing && state.view === "map", placeholderData: keepPreviousData });
+  const facets = useQuery({ queryKey: ["facets"], queryFn: api.facets, refetchInterval: 60_000 });
+  const health = useQuery({ queryKey: ["health"], queryFn: api.health, refetchInterval: 15_000 });
+  const stateMutation = useMutation({ mutationFn: ({ id, value }: { id: string; value: { favorite?: boolean; hidden?: boolean } }) => api.state(id, value), onSuccess: () => { void client.invalidateQueries({ queryKey: ["catalog"] }); void client.invalidateQueries({ queryKey: ["detail"] }); void client.invalidateQueries({ queryKey: ["map"] }); } });
+  const save = useMutation({ mutationFn: () => api.saveSearch(searchName, { ...state.filters, ...(section === "favorites" ? { favoritesOnly: true } : {}) }, notify), onSuccess: () => { setSaveOpen(false); setSearchName(""); setNotify(false); void client.invalidateQueries({ queryKey: ["searches"] }); } });
+  const onState = (id: string, value: { favorite?: boolean; hidden?: boolean }): void => stateMutation.mutate({ id, value });
+  const navigate = (next: Section): void => { setSection(next); setMobileFilters(false); };
+  const blocked = health.data?.sources.filter((source) => ["BLOCKED", "PARTIAL", "FAILED"].includes(source.status)).length ?? 0;
+  const activeTasks = health.data?.tasks.reduce((sum, task) => sum + task.active, 0) ?? 0;
+  const backgroundSummary = health.error ? "Фоновые задачи недоступны" : health.data
+    ? `В работе ${activeTasks.toLocaleString("ru-RU")} · в очереди ${(health.data.pendingJobs - activeTasks).toLocaleString("ru-RU")}`
+    : "Проверяем фоновые задачи…";
+  const nav = [{ key: "catalog", label: "Каталог", icon: Building2 }, { key: "favorites", label: "Избранное", icon: Heart }, { key: "searches", label: "Поиски", icon: Bookmark }, { key: "duplicates", label: "Дубли", icon: Copy }, { key: "status", label: "Сбор", icon: Activity }, { key: "settings", label: "Настройки", icon: Settings2 }] as const;
+  return <><header className="app-header"><a className="brand" href="/" onClick={(e) => { e.preventDefault(); navigate("catalog"); }}><span className="brand-mark"><Building2 size={22} /></span><span>Квартиры<small>Минск и район</small></span></a><nav aria-label="Основная навигация">{nav.map(({ key, label, icon: Icon }) => <button className={section === key ? "nav-item active" : "nav-item"} key={key} title={label} onClick={() => navigate(key)}><Icon size={17} /><span>{label}</span>{key === "status" && (blocked > 0 || (health.data?.pendingJobs ?? 0) > 0) && <i className={blocked ? "nav-warning" : "nav-warning nav-working"} />}</button>)}</nav><button className="connection-status" onClick={() => navigate("status")} title={backgroundSummary} aria-label="Фоновые задачи" aria-description={backgroundSummary}><span className={`status-dot ${health.error ? "warn" : activeTasks > 0 ? "ok" : ""}`} /><span>{backgroundSummary}</span></button></header>
+    {browsing ? <div className={`catalog-layout ${mobileFilters ? "filters-open" : ""}`}><Filters value={state.filters} onChange={state.setFilters} localities={facets.data?.localities ?? []} districts={facets.data?.districts ?? []} /><main className="catalog-main">
+      <div className="catalog-heading"><div><h1>{section === "favorites" ? "Избранные квартиры" : "Квартиры на продажу"}</h1><p>{catalog.data ? `${catalog.data.total.toLocaleString("ru-RU")} объектов` : "Загружаем каталог"}<span className="heading-separator">·</span>Минск и Минский район{catalog.isFetching && <span className="refresh-indicator" />}</p></div><button className="secondary-button save-search" onClick={() => setSaveOpen(true)}><Bookmark size={16} />Сохранить поиск</button></div>
+      <div className="catalog-toolbar"><button className="secondary-button mobile-filter-toggle" onClick={() => setMobileFilters(!mobileFilters)}><ListFilter size={17} />Фильтры</button><div className="segmented" aria-label="Вид каталога"><button className={state.view === "list" ? "selected" : ""} onClick={() => state.setView("list")}><LayoutGrid size={16} />Список</button><button className={state.view === "map" ? "selected" : ""} onClick={() => state.setView("map")}><Map size={16} />Карта</button></div>{state.view === "map" && <label className="check map-bound-toggle"><input type="checkbox" checked={!!state.filters.bounds} onChange={(e) => state.setFilters({ ...state.filters, bounds: e.target.checked ? viewport : undefined })} />В границах карты</label>}<select className="sort-select" aria-label="Сортировка" value={state.sort} onChange={(e) => state.setSort(e.target.value as CatalogSort)}><option value="newest">Сначала новые</option><option value="price-asc">Цена по возрастанию</option><option value="price-desc">Цена по убыванию</option><option value="price-sqm">Цена за м²</option><option value="value">По выгодности</option><option value="comfort">По удобству</option><option value="transit">Ближе к текущей точке</option></select></div>
+      {(catalog.error || map.error || stateMutation.error) && <div className="error-state" role="alert">{catalog.error?.message ?? map.error?.message ?? stateMutation.error?.message}<button className="text-link" onClick={() => { void catalog.refetch(); }}>Повторить</button></div>}
+      {state.view === "map" ? <Suspense fallback={<div className="empty-state">Загружаем карту…</div>}><MapView data={map.data} onOpen={state.openItem} onViewport={(nextZoom, bounds) => { setZoom(nextZoom); setViewport(bounds); if (state.filters.bounds) state.setFilters({ ...state.filters, bounds }); }} onCluster={(bounds) => { state.setFilters({ ...state.filters, bounds }); state.setView("list"); }} /></Suspense> : <>
+        {catalog.isPending ? <div className="listing-grid">{Array.from({ length: 6 }, (_, i) => <div className="listing-skeleton" key={i}><div /><span /><span /><span /></div>)}</div> : catalog.data?.items.length ? <div className="listing-grid">{catalog.data.items.map((item) => <ListingCard key={item.id} item={item} onOpen={state.openItem} onState={onState} />)}</div> : !catalog.error && <div className="empty-state"><Search size={34} /><h2>Квартиры не найдены</h2><p>Под выбранные условия пока нет предложений</p><button className="secondary-button" onClick={() => state.setFilters({})}>Сбросить фильтры</button><button className="text-link" onClick={() => navigate("status")}>Состояние сбора</button></div>}
+        {catalog.data && catalog.data.total > 0 && <div className="pagination"><span>{(state.page - 1) * catalog.data.pageSize + 1}–{Math.min(state.page * catalog.data.pageSize, catalog.data.total)} из {catalog.data.total.toLocaleString("ru-RU")}</span><div><button className="icon-button" title="Предыдущая страница" disabled={state.page <= 1} onClick={() => state.setPage(state.page - 1)}><ChevronLeft size={18} /></button><span>{state.page} / {catalog.data.pages}</span><button className="icon-button" title="Следующая страница" disabled={state.page >= catalog.data.pages} onClick={() => state.setPage(state.page + 1)}><ChevronRight size={18} /></button></div></div>}
+      </>}
+    </main></div> : <main>{section === "settings" ? <Settings /> : section === "status" ? <SourceStatus /> : section === "duplicates" ? <DuplicateReview onOpen={state.openItem} /> : <SavedSearches onApply={(next) => { state.setFilters(next); navigate("catalog"); }} />}</main>}
+    {state.item && <Suspense fallback={null}><Detail id={state.item} onClose={() => state.openItem(null)} onOpen={state.openItem} onState={onState} /></Suspense>}
+    {saveOpen && <div className="modal-backdrop"><form className="save-modal" role="dialog" aria-modal="true" aria-label="Сохранить поиск" onSubmit={(e) => { e.preventDefault(); save.mutate(); }}><div className="page-heading"><h2>Сохранить поиск</h2><button type="button" className="icon-button" title="Закрыть" onClick={() => setSaveOpen(false)}><X size={20} /></button></div><label>Название<input autoFocus required maxLength={100} value={searchName} onChange={(e) => setSearchName(e.target.value)} placeholder="Например, 1–2 комнаты до $90 000" /></label><label className="check"><input type="checkbox" checked={notify} onChange={(e) => setNotify(e.target.checked)} />Новые квартиры и снижение цены в Telegram</label>{save.error && <p className="error-text">{save.error.message}</p>}<button className="primary-button" disabled={save.isPending || !searchName.trim()} type="submit"><Bookmark size={16} />Сохранить</button></form></div>}
+  </>;
+}

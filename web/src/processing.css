@@ -1,0 +1,5 @@
+.rating { min-height: 34px; align-content: center; }
+.rating strong.rating-status { font-size: 11px; font-weight: 500; white-space: normal; overflow-wrap: anywhere; }
+.detail-ratings .rating strong.rating-status { font-size: 13px; max-width: 200px; }
+.commute svg { flex: none; }
+.card-bottom { flex-wrap: wrap; row-gap: 6px; }

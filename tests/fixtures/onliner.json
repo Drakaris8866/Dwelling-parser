@@ -1,0 +1,73 @@
+{
+  "platform": "ONLINER",
+  "capturedAt": "2026-11-05T08:02:26.036Z",
+  "items": [
+    {
+      "id": 1287048,
+      "url": "https://r.onliner.by/pk/apartments/1287048",
+      "price": {
+        "amount": 169000,
+        "currency": "USD",
+        "converted": {
+          "BYN": {
+            "amount": 503721.4,
+            "currency": "BYN"
+          },
+          "USD": {
+            "amount": 169000,
+            "currency": "USD"
+          }
+        }
+      },
+      "area": {
+        "total": 49.4,
+        "living": 41.1
+      },
+      "number_of_rooms": 2,
+      "location": {
+        "address": "Минск, улица Розы Люксембург, 151",
+        "latitude": 53.8893649,
+        "longitude": 27.5072889,
+        "user_address": "Минск, улица Розы Люксембург, 151"
+      },
+      "floor": 3,
+      "number_of_floors": 9,
+      "photo": "https://imgproxy.onliner.by/-5a-MrckoHCqVUJZOlkcFKJp4bNg5u5D_JbitaEu-pA/w:600/h:400/aHR0cHM6Ly9jb250/ZW50Lm9ubGluZXIu/YnkvYXBhcnRtZW50/c19waG90by8xMTE4/MTM1L29yaWdpbmFs/LzA5NGRiYzYyNWIz/ZTI3NWJmMTY3NjIw/NjU0ZGViYzRhLmpw/Zw",
+      "resale": true
+    },
+    {
+      "id": 1279862,
+      "url": "https://r.onliner.by/pk/apartments/1279862",
+      "price": {
+        "amount": 345500,
+        "currency": "BYN",
+        "converted": {
+          "BYN": {
+            "amount": 345500,
+            "currency": "BYN"
+          },
+          "USD": {
+            "amount": 115916.26,
+            "currency": "USD"
+          }
+        }
+      },
+      "area": {
+        "total": 50,
+        "living": 20,
+        "kitchen": 10
+      },
+      "number_of_rooms": 1,
+      "location": {
+        "address": "Минск, Логойский тракт 21кА",
+        "latitude": 53.9485,
+        "longitude": 27.6128,
+        "user_address": "Минск, Логойский тракт 21кА"
+      },
+      "floor": 9,
+      "number_of_floors": 20,
+      "photo": "https://imgproxy.onliner.by/0VhciBEPD7bzCm_soibhXH_2iv2q7cd9jYjsN30Qcsw/w:600/h:400/aHR0cHM6Ly9maWxl/cy5yZWFsdC5ieS9p/bWcvNjIvMjdhOTYx/N2EtOGYzMC0xMWYx/LWExMjktOWUwMjFk/NmQ1ZWIyLmpwZw",
+      "resale": true
+    }
+  ]
+}

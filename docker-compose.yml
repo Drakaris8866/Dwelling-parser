@@ -1,0 +1,31 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: dwelling-parser-postgres
+    environment:
+      POSTGRES_USER: dwelling
+      POSTGRES_PASSWORD: dwelling
+      POSTGRES_DB: dwelling_parser
+    ports:
+      - "55432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dwelling -d dwelling_parser"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  otp:
+    image: docker.io/opentripplanner/opentripplanner:2.5.0
+    container_name: otp
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./otp-data:/var/opentripplanner
+    command: ["--build", "--save", "--serve"]
+    environment:
+      - JAVA_OPTS=-Xmx4G
+
+volumes:
+  postgres-data:

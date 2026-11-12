@@ -1,0 +1,11 @@
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Bell, BellOff, Search, Trash2 } from "lucide-react";
+import { api } from "../api.js";
+import type { CatalogFilters } from "../../../src/contracts/catalog.js";
+export function SavedSearches({ onApply }: { onApply: (filters: CatalogFilters) => void }) {
+  const query = useQuery({ queryKey: ["searches"], queryFn: api.searches });
+  const client = useQueryClient();
+  const update = useMutation({ mutationFn: ({ id, enabled }: { id: string; enabled: boolean }) => api.updateSearch(id, { notifications: enabled }), onSuccess: () => { void client.invalidateQueries({ queryKey: ["searches"] }); } });
+  const remove = useMutation({ mutationFn: api.deleteSearch, onSuccess: () => { void client.invalidateQueries({ queryKey: ["searches"] }); } });
+  return <section className="workspace-page"><h1>Сохранённые поиски</h1>{(query.error || update.error || remove.error) && <p className="error-state">{query.error?.message ?? update.error?.message ?? remove.error?.message}</p>}{query.data?.length === 0 && <div className="empty-state"><Search size={32} /><h2>Сохранённых поисков пока нет</h2></div>}<div className="searches-list">{query.data?.map((search) => <article className="saved-search" key={search.id}><div><h2>{search.name}</h2><p className="muted">{search.filters.rooms?.length ? `${search.filters.rooms.join(", ")} комн. · ` : ""}{search.filters.maxPrice ? `До $${search.filters.maxPrice.toLocaleString("ru-RU")} · ` : ""}{search.notifications ? "Telegram включён" : "Уведомления выключены"}</p></div><div className="saved-search-actions"><button className="secondary-button" onClick={() => onApply(search.filters)}><Search size={16} />Открыть</button><button className={`icon-button ${search.notifications ? "active" : ""}`} title={search.notifications ? "Выключить уведомления" : "Включить уведомления"} disabled={update.isPending} onClick={() => update.mutate({ id: search.id, enabled: !search.notifications })}>{search.notifications ? <Bell size={19} /> : <BellOff size={19} />}</button><button className="icon-button danger" title="Удалить поиск" disabled={remove.isPending} onClick={() => remove.mutate(search.id)}><Trash2 size={18} /></button></div></article>)}</div></section>;
+}

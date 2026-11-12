@@ -1,0 +1,1 @@
+ALTER TABLE "Property" ADD COLUMN "userStateRevision" INTEGER NOT NULL DEFAULT 0;
